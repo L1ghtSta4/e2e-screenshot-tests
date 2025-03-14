@@ -23,7 +23,7 @@ test('Перевірка форми входу', async ({ page }) => {
   await page.fill('#username', 'test_user');
   await page.fill('#password', 'password123');
   await page.click('#loginButton');
-  await expect(page.locator('#successMessage')).toBeVisible();
+  await expect(page.locator('#successMessage')).toBeVisible({ timeout: 3000 });
 });
 
 test('Валідація обов’язкових полів форми', async ({ page }) => {
