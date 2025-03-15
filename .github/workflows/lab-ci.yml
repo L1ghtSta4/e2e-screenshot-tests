@@ -13,31 +13,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20.x'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install Playwright
-      run: npm install @playwright/test --save-dev
+      - name: Build project
+        run: npm run build  # Додаємо команду білду перед запуском сервера
 
-    - name: Debug Playwright
-      run: |
-        echo "Checking Playwright..."
-        npx playwright --version || echo "Playwright not found"
-        ls -l node_modules/.bin/ || echo "No bin folder"
+      - name: Install Playwright
+        run: npm install @playwright/test --save-dev
 
-    - name: Fix Playwright permissions
-      run: chmod +x node_modules/.bin/playwright || echo "No permission issue"
+      - name: Install http-server
+        run: npm install -g http-server
 
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      - name: Fix http-server permissions
+        run: chmod +x node_modules/.bin/http-server || echo "No permission issue"
 
-    - name: Run tests
-      run: npx playwright test
+      - name: Start local server
+        run: npx http-server ./dist -p 3000 &
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run tests
+        run: npx playwright test
