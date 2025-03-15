@@ -24,17 +24,20 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Install Playwright as dependency
+    - name: Install Playwright
       run: npm install @playwright/test --save-dev
 
-    - name: Debug Playwright path
+    - name: Install http-server
+      run: npm install -g http-server
+
+    - name: Debug http-server
       run: |
-        echo "Checking Playwright..."
-        npx playwright --version || echo "Playwright not found"
+        echo "Checking http-server..."
+        npx http-server -v || echo "http-server not found"
         ls -l node_modules/.bin/ || echo "No bin folder"
 
-    - name: Fix Playwright permissions
-      run: chmod +x node_modules/.bin/playwright || echo "No permission issue"
+    - name: Fix permissions
+      run: chmod +x node_modules/.bin/http-server || echo "No permission issue"
 
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
