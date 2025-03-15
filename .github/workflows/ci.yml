@@ -25,10 +25,19 @@ jobs:
       run: npm install
 
     - name: Install Playwright
-      run: npx --yes playwright install --with-deps
+      run: npm install @playwright/test --save-dev
 
-    - name: Fix permissions
-      run: chmod +x node_modules/.bin/*
+    - name: Debug Playwright path
+      run: |
+        echo "Playwright path:"
+        which playwright || echo "Playwright not found"
+        ls -l node_modules/.bin/
+
+    - name: Fix Playwright permissions
+      run: chmod +x node_modules/.bin/playwright || echo "No permission issue"
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
 
     - name: Run tests
       run: npx playwright test
