@@ -39,8 +39,11 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
+    - name: Kill process on port 3000
+      run: fuser -k 3000/tcp || echo "No process found"
+
     - name: Start local server
-      run: npx http-server public -p 3000 &
+      run: npx http-server public -p 3000 & sleep 3
 
     - name: Run tests
       run: npx playwright test
